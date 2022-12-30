@@ -48,13 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .authorizeRequests()
                 .antMatchers("/*").permitAll()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/swagger-ui/*").permitAll()
-                .antMatchers("/api/admin/**").access("hasAnyRole('ROLE_ADMIN')") //admin uchun
-                .antMatchers("/api/supervisor/**").access("hasAnyRole('ROLE_SUPER_ADMIN')") //asosiy monitoring uchun
-                .antMatchers("/api/workers/**").access("hasAnyRole('ROLE_USER')") //userlar uchun
-                //.antMatchers("/api/admin/*").hasAnyRole()
-                // .antMatchers("/api/admin/**").hasAnyRole("ROLE_ADMIN", "ROLE_SUPER_ADMIN", "ROLE_MODER", "ROLE_USER")
+                .antMatchers("/api/calendarBor/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

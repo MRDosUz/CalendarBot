@@ -12,8 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 @Data
 @AllArgsConstructor
@@ -24,6 +24,9 @@ public class UsersEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(nullable = false)
+    private Integer positionId;
 
     @Column(nullable = false)
     private String firstName;//ism
@@ -53,7 +56,8 @@ public class UsersEntity implements UserDetails {
     @ManyToOne
     private RoleEntity role;
 
-    public UsersEntity(String firstName, String lastName, String middleName, String userName, String password, RoleEntity role) {
+    public UsersEntity(Integer positionId, String firstName, String lastName, String middleName, String userName, String password, RoleEntity role) {
+        this.positionId = positionId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
@@ -73,13 +77,11 @@ public class UsersEntity implements UserDetails {
 
     private boolean enabled = true; //bu user yoqilganmi (aktivmi) default = false (chunki verifikatsiyadan o'tganidan kn yoqib qo'yamiz)
 
-
-
     //BU USERDETALIS NING METHODLARI
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(this.role);
+        return Arrays.asList(this.role);
     }
 
     @Override
